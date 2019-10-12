@@ -1,0 +1,98 @@
+﻿@model IEnumerable<MVCProjekt77748.Models.Kurs>
+
+@{
+    ViewBag.Title = "Lista kursów";
+}
+
+<h2>Lista kursów</h2>
+
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("admin"))
+        {
+            @Html.ActionLink("Create New", "Create")
+        }
+    }
+    @using (Html.BeginForm())
+    {        
+        <p> 
+        Title: @Html.TextBox("SearchString") 
+        <input type="submit" value="Filter" />
+        </p> 
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Tytul)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataRozpoczecia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Poziom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cena)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiczbaMiejsc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiczbaWolnychMiejsc)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tytul)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataRozpoczecia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Poziom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cena)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LiczbaMiejsc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LiczbaWolnychMiejsc)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id = item.IDKursu })
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("user"))
+                {
+                    @Html.ActionLink("Zapisz", "Save", new { id = item.IDKursu })
+                }
+            }
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("admin"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IDKursu })
+                }
+            }
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("admin"))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IDKursu })
+                }
+            }
+        </td>
+    </tr>
+}
+
+</table>
